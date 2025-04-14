@@ -1,4 +1,4 @@
-package LabSistemasDistribuidos.Laboratorio01.Propuestos.Ejercicio01;
+package LabSistemasDistribuidos.Laboratorio01.Resueltos.Ejercicio01;
 
 public class CajeraThread extends Thread {
     private String nombre;
