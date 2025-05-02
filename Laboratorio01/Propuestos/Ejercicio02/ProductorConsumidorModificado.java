@@ -1,3 +1,5 @@
+package LabSistemasDistribuidos.Laboratorio01.Propuestos.Ejercicio02;
+
 class CubbyHole {
     private int contents;
     private boolean available = false;
