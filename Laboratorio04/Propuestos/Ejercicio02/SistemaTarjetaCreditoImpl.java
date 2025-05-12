@@ -1,5 +1,22 @@
 package LabSistemasDistribuidos.Laboratorio04.Propuestos.Ejercicio02;
 
+/*  Ejecucion:
+- Todo se hace en el directorio padre de /LabSistemasDistribuidos/
+----TERMINAL 1---- compilar archivos .java y ejecutar rmiregistry
+
+javac LabSistemasDistribuidos/Laboratorio04/Propuestos/Ejercicio02/*.java 
+
+rmiregistry
+
+----TERMINAL 2---- ejecutar el servidor
+
+java LabSistemasDistribuidos.Laboratorio04.Propuestos.Ejercicio02.Server
+
+----TERMINAL 3---- ejecutar el cliente
+
+java LabSistemasDistribuidos.Laboratorio04.Propuestos.Ejercicio02.Cliente
+
+*/
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
