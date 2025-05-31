@@ -10,7 +10,8 @@ Este proyecto implementa un servicio SOAP simple para procesar ventas de product
 - `README.md`: documentación inicial del proyecto.
 
 ### Consideraciones Adicionales (Opcional)
-No olvidar activar su entorno virtual si esta trabajando con uno. O si no desea que se instale en todo su sistema las librerias de requirements.txt y quiere que solo tenerlo en sus entorno.
+No olvidar activar su entorno virtual si esta trabajando con uno. O si no desea que se instale en todo su sistema las librerias de requirements.txt y quiere que solo tenerlo en su entorno.
+
 - `Crear entorno virtual`: Con virtualenv
 ```bash
 python -m virtualenv env
