@@ -8,7 +8,7 @@ class VentasService(ServiceBase):
     def procesar_venta(ctx, producto, cantidad):
         return f"Venta procesada: {cantidad} unidad(es) de '{producto}'"
 
-# Definir la aplicación SOAP
+# Definir la aplicacion SOAP
 application = Application(
     [VentasService],
     tns='ventas.soap',
