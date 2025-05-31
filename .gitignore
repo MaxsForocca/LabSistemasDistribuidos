@@ -40,3 +40,10 @@ out/
 .settings
 .classpath
 .factorypath
+
+# python - entornos virtuales
+__pycache__/
+env/
+venv/
+virtualenv/
+
