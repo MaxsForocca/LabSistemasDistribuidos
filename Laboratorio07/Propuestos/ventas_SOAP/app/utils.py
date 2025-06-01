@@ -1,54 +1,143 @@
-# app/models.py
+# app/utils.py
 
-class Producto:
+from app.models import Producto, Venta, PRODUCTOS_DISPONIBLES, VENTAS_REALIZADAS
+
+
+def validar_datos(nombre_producto, precio, cantidad):
     """
-    Clase que representa un producto en el sistema de ventas
+    Valida los datos de entrada para una venta
+    
+    Args:
+        nombre_producto (str): Nombre del producto
+        precio (float): Precio del producto
+        cantidad (int): Cantidad a vender
+        
+    Returns:
+        tuple: (bool, str) - (es_valido, mensaje_error)
     """
-    def __init__(self, nombre, precio):
-        self.nombre = nombre
-        self.precio = precio
+    # Validar que el nombre no esté vacío
+    if not nombre_producto or nombre_producto.strip() == "":
+        return False, "El nombre del producto no puede estar vacío"
     
-    def __str__(self):
-        return f"Producto: {self.nombre} - S/{self.precio:.2f}"
+    # Validar que el precio sea positivo
+    if precio <= 0:
+        return False, "El precio debe ser mayor a 0"
     
-    def __repr__(self):
-        return f"Producto('{self.nombre}', {self.precio})"
+    # Validar que la cantidad sea positiva
+    if cantidad <= 0:
+        return False, "La cantidad debe ser mayor a 0"
+    
+    # Validar que la cantidad sea un número entero
+    if not isinstance(cantidad, int):
+        return False, "La cantidad debe ser un número entero"
+    
+    return True, "Datos válidos"
 
 
-class Venta:
+def buscar_producto(nombre_producto):
     """
-    Clase que representa una venta realizada
+    Busca un producto en la lista de productos disponibles
+    
+    Args:
+        nombre_producto (str): Nombre del producto a buscar
+        
+    Returns:
+        Producto: El producto encontrado o None si no existe
     """
-    contador_id = 1  # Para generar IDs únicos
+    nombre_producto = nombre_producto.strip().lower()
     
-    def __init__(self, producto, cantidad):
-        self.id = Venta.contador_id
-        Venta.contador_id += 1
-        self.producto = producto
-        self.cantidad = cantidad
-        self.total = self.calcular_total()
+    for producto in PRODUCTOS_DISPONIBLES:
+        if producto.nombre.lower() == nombre_producto:
+            return producto
     
-    def calcular_total(self):
-        """
-        Calcula el total de la venta
-        """
-        return self.producto.precio * self.cantidad
-    
-    def __str__(self):
-        return f"Venta #{self.id}: {self.producto.nombre} x{self.cantidad} = S/{self.total:.2f}"
-    
-    def __repr__(self):
-        return f"Venta({self.producto}, {self.cantidad})"
+    return None
 
 
-# Base de datos simulada en memoria
-PRODUCTOS_DISPONIBLES = [
-    Producto("Camisa", 25.50),
-    Producto("Pantalon", 45.00),
-    Producto("Zapatos", 80.00),
-    Producto("Chaqueta", 120.00),
-    Producto("Gorra", 15.00)
-]
+def crear_producto(nombre, precio):
+    """
+    Crea un nuevo producto y lo agrega a la lista
+    
+    Args:
+        nombre (str): Nombre del producto
+        precio (float): Precio del producto
+        
+    Returns:
+        Producto: El producto creado
+    """
+    producto = Producto(nombre, precio)
+    return producto
 
-# Lista para almacenar las ventas realizadas
-VENTAS_REALIZADAS = []
+
+def registrar_venta(nombre_producto, precio, cantidad):
+    """
+    Registra una nueva venta en el sistema
+    
+    Args:
+        nombre_producto (str): Nombre del producto
+        precio (float): Precio del producto
+        cantidad (int): Cantidad vendida
+        
+    Returns:
+        Venta: La venta registrada
+    """
+    # Buscar si el producto ya existe
+    producto_existente = buscar_producto(nombre_producto)
+    
+    if producto_existente:
+        # Usar el producto existente
+        producto = producto_existente
+    else:
+        # Crear un nuevo producto
+        producto = crear_producto(nombre_producto, precio)
+        PRODUCTOS_DISPONIBLES.append(producto)
+    
+    # Crear la venta
+    venta = Venta(producto, cantidad)
+    
+    # Agregar la venta a la lista
+    VENTAS_REALIZADAS.append(venta)
+    
+    return venta
+
+
+def obtener_todas_las_ventas():
+    """
+    Obtiene todas las ventas realizadas
+    
+    Returns:
+        list: Lista de todas las ventas
+    """
+    return VENTAS_REALIZADAS.copy()
+
+
+def calcular_total_ventas():
+    """
+    Calcula el total de dinero de todas las ventas
+    
+    Returns:
+        float: Total de todas las ventas
+    """
+    total = 0
+    for venta in VENTAS_REALIZADAS:
+        total += venta.total
+    return total
+
+
+def obtener_productos_disponibles():
+    """
+    Obtiene la lista de productos disponibles
+    
+    Returns:
+        list: Lista de productos disponibles
+    """
+    return PRODUCTOS_DISPONIBLES.copy()
+
+
+def contar_ventas():
+    """
+    Cuenta el número total de ventas realizadas
+    
+    Returns:
+        int: Número de ventas
+    """
+    return len(VENTAS_REALIZADAS)
