@@ -2,6 +2,18 @@
 
 Este proyecto implementa un servicio SOAP simple para procesar ventas de productos, utilizando Python, Spyne y wsgiref.
 
+## Funcionalidades del servicio
+
+El servicio SOAP expone las siguientes operaciones:
+
+- `realizar_venta(producto: str, precio: float, cantidad: int)`  
+  Registra una nueva venta. Si el producto no existe, se agrega automáticamente.
+
+- `obtener_ventas()`  
+  Devuelve una lista con todas las ventas registradas.
+
+- `consultar_producto(nombre_producto: str)`  
+  Busca un producto por nombre y devuelve su información.
 
 ## Estructura
 
