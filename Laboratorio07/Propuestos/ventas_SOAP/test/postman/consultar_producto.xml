@@ -1,0 +1,10 @@
+<!-- consultar_producto.xml -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ser="ventas.soap.service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:consultar_producto>
+         <nombre_producto>Laptop Gamer</nombre_producto>
+      </ser:consultar_producto>
+   </soapenv:Body>
+</soapenv:Envelope>

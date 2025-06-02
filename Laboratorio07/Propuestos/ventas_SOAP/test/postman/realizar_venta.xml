@@ -1,0 +1,12 @@
+<!-- realizar_venta.xml -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ser="ventas.soap.service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:realizar_venta>
+         <producto>Laptop Gamer</producto>
+         <precio>4199.99</precio>
+         <cantidad>1</cantidad>
+      </ser:realizar_venta>
+   </soapenv:Body>
+</soapenv:Envelope>

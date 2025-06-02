@@ -1,0 +1,8 @@
+<!-- obtener_ventas.xml -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ser="ventas.soap.service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:obtener_ventas/>
+   </soapenv:Body>
+</soapenv:Envelope>
