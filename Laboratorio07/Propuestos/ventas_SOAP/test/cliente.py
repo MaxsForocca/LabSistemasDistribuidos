@@ -9,23 +9,23 @@ def mostrar_resultado(nombre, resultado):
     print(f">> {nombre}:\n{resultado}\n{'-'*40}")
 
 # Prueba 1: Venta válida
-resp1 = client.service.realizar_venta("Tablet", 1000.0, 2)
+resp1 = client.service.realizar_venta("Camisa", 25.50, 2)
 mostrar_resultado("Venta válida", resp1)
 
 # Prueba 2: Precio negativo
-resp2 = client.service.realizar_venta("TV", -1500.0, 1)
+resp2 = client.service.realizar_venta("Pantalon", -45.00, 1)
 mostrar_resultado("Precio negativo", resp2)
 
 # Prueba 3: Cantidad cero
-resp3 = client.service.realizar_venta("Mouse", 50.0, 0)
+resp3 = client.service.realizar_venta("Zapatos", 80.0, 0)
 mostrar_resultado("Cantidad cero", resp3)
 
 # Prueba 4: Nombre vacío
-resp4 = client.service.realizar_venta("", 100.0, 1)
+resp4 = client.service.realizar_venta("", 10.0, 1)
 mostrar_resultado("Nombre vacío", resp4)
 
 # Prueba 5: Producto ya existente
-resp5 = client.service.consultar_producto("Tablet")
+resp5 = client.service.consultar_producto("Gorra")
 mostrar_resultado("Consultar producto existente", resp5)
 
 # Prueba 6: Producto inexistente
