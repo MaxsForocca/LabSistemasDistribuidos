@@ -12,7 +12,7 @@ if __name__ == '__main__':
     print("WSDL disponible en: http://127.0.0.1:8000/?wsdl")
     print("Presiona Ctrl+C para detener el servidor")
     
-    try:
+    try:    
         server.serve_forever()
     except KeyboardInterrupt:
         print("Servidor detenido por el usuario")
