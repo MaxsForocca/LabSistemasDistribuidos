@@ -4,7 +4,7 @@ import java.sql.*;
 public class ConexionBD {
     private static final String URL = "jdbc:mysql://localhost:3306/EmpresaProyectos?useSSL=false&serverTimezone=UTC";
     private static final String USUARIO = "root";
-    private static final String PASSWORD = "admin123"; // Tu contraseña de MySQL
+    private static final String PASSWORD = "admin1"; // Tu contraseña de MySQL
     
     public static Connection getConnection() {
         try {
