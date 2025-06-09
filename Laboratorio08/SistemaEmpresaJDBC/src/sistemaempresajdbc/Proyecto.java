@@ -1,14 +1,14 @@
 package sistemaempresajdbc;
 
 public class Proyecto {
-    private int IDProy;            // id autoincremental en BD
+    private int IDProy;
     private String Nombre;
     private String Descripcion;
-    private String Fec_Inicio;     // formato "YYYY-MM-DD"
-    private String Fec_Termino;    // formato "YYYY-MM-DD" o null
+    private String Fec_Inicio;
+    private String Fec_Termino;
     private int IDDpto;
     private double Presupuesto;
-    private String Estado;         // 'PLANIFICADO', 'EN_CURSO', 'TERMINADO', 'CANCELADO'
+    private String Estado;
     private String nombreDepartamento;
 
     public Proyecto(int IDProy, String Nombre, String Descripcion, String Fec_Inicio, String Fec_Termino, int IDDpto, double Presupuesto, String Estado, String nombreDepartamento) {

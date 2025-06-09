@@ -31,6 +31,9 @@ def validar_datos(nombre_producto, precio, cantidad):
     if not isinstance(cantidad, int):
         return False, "La cantidad debe ser un número entero"
     
+    if buscar_producto(nombre_producto) == None:
+            return False, "El producto no existe"
+    
     return True, "Datos válidos"
 
 
