@@ -34,7 +34,7 @@ public class Rollback {
             // 2. Insertar titular
             stmt2 = connection.prepareStatement("INSERT INTO titulares (dni, nombre) VALUES (?,?);");
             stmt2.setString(1, "99998888");
-            stmt2.setString(2, "Grupo4");
+            stmt2.setString(2, "Grupo3");
             stmt2.executeUpdate();
             System.out.println("2do INSERT en tabla 'titulares'");
 
