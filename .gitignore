@@ -47,3 +47,6 @@ env/
 venv/
 virtualenv/
 venv310/
+
+# vscode
+.vscode/
