@@ -2,6 +2,9 @@ package com.example.sistema_empresa_jdbc.controller;
 
 import com.example.sistema_empresa_jdbc.models.Ingeniero;
 import com.example.sistema_empresa_jdbc.services.IngenieroService;
+
+import com.example.sistema_empresa_jdbc.dto.IngenieroDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -14,7 +17,7 @@ public class IngenieroController {
     private IngenieroService ingenieroService;
 
     @GetMapping
-    public List<Ingeniero> listar() {
+    public List<IngenieroDTO> listar() {
         return ingenieroService.listarTodos();
     }
 

@@ -33,12 +33,12 @@ public class Ingeniero {
     // FK hacia Departamentos
     @ManyToOne
     @JoinColumn(name = "IDDpto")
-    @JsonBackReference
+    @JsonBackReference(value = "ingeniero-dpto")
     private Departamento departamento;
 
     // Relación N:M
     @ManyToMany(mappedBy = "ingenieros")
-    @JsonBackReference
+    @JsonBackReference(value = "proyecto-ingeniero")
     private List<Proyecto> proyectos;
 
     // Getters y setters

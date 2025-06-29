@@ -35,20 +35,18 @@ public class Proyecto {
         PLANIFICADO, EN_CURSO, TERMINADO, CANCELADO
     }
 
-    // FK hacia Departamentos
     @ManyToOne
     @JoinColumn(name = "IDDpto")
-    @JsonBackReference
+    @JsonBackReference(value = "proyecto-dpto") // <-- debe coincidir con Departamento.java
     private Departamento departamento;
 
-    // Relación N:M
     @ManyToMany
     @JoinTable(
         name = "Proyecto_Ingeniero",
         joinColumns = @JoinColumn(name = "IDProy"),
         inverseJoinColumns = @JoinColumn(name = "IDIng")
     )
-    @JsonBackReference
+    @JsonBackReference(value = "proyecto-ingeniero") // <-- debe emparejarse con el correspondiente @JsonManagedReference si lo usas luego
     private List<Ingeniero> ingenieros;
 
     // Getters y setters

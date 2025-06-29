@@ -26,13 +26,12 @@ public class Departamento {
     @Enumerated(EnumType.STRING)
     private EstadoDepartamento Estado;
 
-    // Relaciones: uno a muchos
     @OneToMany(mappedBy = "departamento")
-    @JsonIgnore
+    @JsonManagedReference(value = "ingeniero-dpto")
     private List<Ingeniero> ingenieros;
 
     @OneToMany(mappedBy = "departamento")
-    @JsonIgnore
+    @JsonManagedReference(value = "proyecto-dpto")
     private List<Proyecto> proyectos;
 
     public enum EstadoDepartamento {
