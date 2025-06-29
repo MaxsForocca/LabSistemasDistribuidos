@@ -1,11 +1,10 @@
 package com.example.sistema_empresa_jdbc.models;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import com.example.sistema_empresa_jdbc.models.Ingeniero;
 import com.example.sistema_empresa_jdbc.models.Proyecto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -21,7 +20,7 @@ public class Departamento {
     private String Fax;
 
     @Column(name = "Fecha_Creacion")
-    private Timestamp fechaCreacion;
+    private LocalDate fechaCreacion;
 
     @Enumerated(EnumType.STRING)
     private EstadoDepartamento Estado;
@@ -71,11 +70,11 @@ public class Departamento {
         this.Fax = fax;
     }
 
-    public Timestamp getFechaCreacion() {
+    public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(Timestamp fechaCreacion) {
+    public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 

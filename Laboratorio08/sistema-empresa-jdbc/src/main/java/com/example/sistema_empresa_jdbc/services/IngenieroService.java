@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class IngenieroService {
@@ -57,9 +58,31 @@ public class IngenieroService {
         }).toList();
     }
 
-    public Ingeniero buscarPorId(Integer id) {
-        return ingenieroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ingeniero no encontrado"));
+    public IngenieroDTO buscarDTOPorId(Integer id) {
+        Ingeniero ing = ingenieroRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ingeniero no encontrado"));
+
+        IngenieroDTO dto = new IngenieroDTO();
+        dto.setIdIng(ing.getIDIng()); // respeta el nombre real
+        dto.setNombre(ing.getNombre());
+        dto.setApellido(ing.getApellido());
+        dto.setEspecialidad(ing.getEspecialidad());
+        dto.setCargo(ing.getCargo());
+        dto.setSalario(ing.getSalario());
+        dto.setFechaIngreso(ing.getFechaIngreso());
+        dto.setEmail(ing.getEmail());
+
+        if (ing.getDepartamento() != null) {
+            dto.setDepartamentoNombre(ing.getDepartamento().getNombre());
+        }
+
+        List<IngenieroDTO.ProyectoSimpleDTO> proyectosDTO = ing.getProyectos().stream()
+            .map(p -> new IngenieroDTO.ProyectoSimpleDTO(p.getIDProy(), p.getNombre()))
+            .collect(Collectors.toList());
+
+        dto.setProyectos(proyectosDTO);
+
+        return dto;
     }
 
     public Ingeniero guardar(IngenieroRequestDTO req) {
@@ -100,7 +123,7 @@ public class IngenieroService {
             existente.setDepartamento(dpto);
         }
 
-        if (req.idProyectos != null && !req.idProyectos.isEmpty()) {
+        if (req.idProyectos != null) {
             List<Proyecto> proyectos = proyectoRepository.findAllById(req.idProyectos);
             existente.setProyectos(proyectos);
         }
@@ -111,5 +134,10 @@ public class IngenieroService {
     public void eliminar(Integer id) {
         Ingeniero ingeniero = buscarPorId(id);
         ingenieroRepository.delete(ingeniero);
+    }
+
+    public Ingeniero buscarPorId(Integer id) {
+        return ingenieroRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ingeniero no encontrado"));
     }
 }

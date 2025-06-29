@@ -23,8 +23,8 @@ public class IngenieroController {
     }
 
     @GetMapping("/{id}")
-    public Ingeniero obtener(@PathVariable Integer id) {
-        return ingenieroService.buscarPorId(id);
+    public IngenieroDTO obtener(@PathVariable Integer id) {
+        return ingenieroService.buscarDTOPorId(id);
     }
 
     @PostMapping

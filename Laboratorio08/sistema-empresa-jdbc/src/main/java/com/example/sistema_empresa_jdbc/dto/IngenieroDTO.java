@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class IngenieroDTO {
-    private Integer idIng;
+    private Integer iding;
     private String nombre;
     private String apellido;
     private String especialidad;
@@ -17,13 +17,12 @@ public class IngenieroDTO {
     private List<ProyectoSimpleDTO> proyectos;
 
     // Getters y setters
-
     public Integer getIdIng() {
-        return idIng;
+        return iding;
     }
 
-    public void setIdIng(Integer idIng) {
-        this.idIng = idIng;
+    public void setIdIng(Integer iding) {
+        this.iding = iding;
     }
 
     public String getNombre() {

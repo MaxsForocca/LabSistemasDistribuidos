@@ -40,13 +40,7 @@ public class Proyecto {
     @JsonBackReference(value = "proyecto-dpto") // <-- debe coincidir con Departamento.java
     private Departamento departamento;
 
-    @ManyToMany
-    @JoinTable(
-        name = "Proyecto_Ingeniero",
-        joinColumns = @JoinColumn(name = "IDProy"),
-        inverseJoinColumns = @JoinColumn(name = "IDIng")
-    )
-    @JsonBackReference(value = "proyecto-ingeniero") // <-- debe emparejarse con el correspondiente @JsonManagedReference si lo usas luego
+    @ManyToMany(mappedBy = "proyectos")
     private List<Ingeniero> ingenieros;
 
     // Getters y setters
