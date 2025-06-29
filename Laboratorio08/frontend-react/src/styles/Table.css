@@ -1,20 +1,128 @@
-.ingeniero-page {
-  padding: 20px;
+.page {
+  padding: 0;
 }
 
-.ingeniero-table {
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 13px;
+  border-bottom: 2px solid #20232a;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 1.5em;
+  color: #20232a;
+}
+
+.tittle-page {
+  margin: 0;
+  font-size: 1.6em;
+  font-weight: 500;
+}
+
+.add-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #218838;
+}
+
+.table-page {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.ingeniero-table th,
-.ingeniero-table td {
-  border: 1px solid #ccc;
+.table-page th {
+  background-color: #20232a;
+  color: #fff;
+  height: 20px;
+  font-weight: 200;
+  border: none;
+  font-size: 0.7em;
+  padding: 8px;
+}
+
+.table-page th:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.table-page th:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.table-page td {
   padding: 8px;
   text-align: left;
+  font-size: 0.7em;
 }
 
-.ingeniero-table th {
-  background-color: #f4f4f4;
+.table-page tbody tr:nth-child(odd) {
+  background-color: #f2f2f2; /* color claro */
+}
+
+.table-page tbody tr:nth-child(even) {
+  background-color: #ffffff; /* blanco */
+}
+
+.acciones-botones {
+  display: flex;
+  justify-content: space-around;
+}
+
+.icon-button {
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  width: 23px;
+  height: 23px;
+  transition: color 0.2s ease;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transition: all 0.35s ease;
+}
+
+.icon-button.edit {
+  color: #fff;
+  background-color: rgb(243, 209, 19);
+}
+
+.icon-button.delete {
+  color: #fff;
+  background-color: rgb(202, 4, 4);
+}
+
+.icon-button.edit:hover {
+  background-color: rgb(221, 193, 11);
+}
+
+.icon-button.delete:hover {
+  background-color: rgb(167, 6, 6);
 }

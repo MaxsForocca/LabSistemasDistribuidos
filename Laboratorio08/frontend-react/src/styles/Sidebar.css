@@ -4,6 +4,7 @@
   color: white;
   height: 100vh;
   padding-top: 10px;
+  flex-shrink: 0;
 }
 
 .sidebar nav {

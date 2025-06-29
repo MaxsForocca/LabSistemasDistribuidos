@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import { FaEdit, FaTrash, FaHardHat, FaPlus } from 'react-icons/fa';
 import '../styles/Table.css';
 import {
   obtenerIngenieros,
   eliminarIngeniero,
-  crearIngeniero, 
-  actualizarIngeniero, 
-  // obtenerIngenieroPorId
+  obtenerIngenieroPorId
 } from '../services/IngenieroService.js';
+import IngenieroDialog from '../components/IngenieroDialog';
 
 const IngenieroPage = () => {
   const [ingenieros, setIngenieros] = useState([]);
+  const [modoDialogo, setModoDialogo] = useState('agregar');
+  const [ingenieroSeleccionado, setIngenieroSeleccionado] = useState(null);
 
   const cargarIngenieros = () => {
     obtenerIngenieros()
@@ -21,6 +23,20 @@ const IngenieroPage = () => {
   useEffect(() => {
     cargarIngenieros();
   }, []);
+  
+  const handleAbrirAgregar = () => {
+    setModoDialogo('agregar');
+    setIngenieroSeleccionado(null);
+    document.getElementById('dialogIngeniero').showModal();
+  };
+
+  const handleEditar = (id) => {
+    obtenerIngenieroPorId(id).then(res => {
+      setModoDialogo('editar');
+      setIngenieroSeleccionado(res.data);
+      document.getElementById('dialogIngeniero').showModal();
+    });
+  };
 
   const handleEliminar = (id) => {
     Swal.fire({
@@ -43,15 +59,26 @@ const IngenieroPage = () => {
       }
     });
   };
-
-  const handleEditar = (id) => {
-    Swal.fire('Editar', `Abrir modal de edición para el ingeniero ID: ${id}`, 'info');
-  };
+  
 
   return (
-    <div className="ingeniero-page">
-      <h2>Lista de Ingenieros</h2>
-      <table className="ingeniero-table">
+    <div className="page">
+      <IngenieroDialog
+        modo={modoDialogo}
+        ingeniero={ingenieroSeleccionado}
+        onSuccess={obtenerIngenieros}
+      />
+
+      <div className="page-header">
+        <div className="header-left">
+            <FaHardHat className="header-icon" />
+            <h2 className="tittle-page">Lista de Ingenieros</h2>
+        </div>
+        <button className="add-button" onClick={handleAbrirAgregar}>
+            <FaPlus /> Agregar Ineniero
+        </button>
+      </div>
+      <table className="table-page">
         <thead>
           <tr>
             <th>ID</th>
@@ -77,11 +104,15 @@ const IngenieroPage = () => {
               <td>S/. {ing.salario.toFixed(2)}</td>
               <td>{ing.fechaIngreso}</td>
               <td>
-                <button onClick={() => handleEditar(ing.iding)}>Editar</button>
-                <button onClick={() => handleEliminar(ing.iding)} style={{ marginLeft: '5px', color: 'red' }}>
-                  Eliminar
-                </button>
-              </td>
+                <div className="acciones-botones">
+                    <button className="icon-button edit" onClick={() => handleEditar(ing.iding)}>
+                    <FaEdit />
+                    </button>
+                    <button className="icon-button delete" onClick={() => handleEliminar(ing.iding)}>
+                    <FaTrash />
+                    </button>
+                </div>
+               </td>
             </tr>
           ))}
         </tbody>

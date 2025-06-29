@@ -1,10 +1,13 @@
 /* src/styles/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
 }
 
 .app-container {
@@ -15,5 +18,7 @@ html, body {
 
 .app-content {
   flex-grow: 1;
-  padding: 0px;
+  overflow-y: auto;
+  height: 100vh;
+  padding: 30px;
 }
