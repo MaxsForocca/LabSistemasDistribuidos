@@ -2,6 +2,9 @@ package com.example.sistema_empresa_jdbc.controller;
 
 import com.example.sistema_empresa_jdbc.models.Proyecto;
 import com.example.sistema_empresa_jdbc.services.ProyectoService;
+
+import com.example.sistema_empresa_jdbc.dto.ProyectoSimpleDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -36,5 +39,12 @@ public class ProyectoController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Integer id) {
         proyectoService.eliminar(id);
+    }
+    
+    @GetMapping("/dto")
+    public List<ProyectoSimpleDTO> listarSoloIdNombre() {
+        return proyectoService.listarTodos().stream()
+            .map(proy -> new ProyectoSimpleDTO(proy.getIDProy(), proy.getNombre()))
+            .toList();
     }
 }

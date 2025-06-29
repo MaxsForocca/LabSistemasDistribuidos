@@ -3,6 +3,9 @@ package com.example.sistema_empresa_jdbc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.sistema_empresa_jdbc.services.DepartamentoService;
+
+import com.example.sistema_empresa_jdbc.dto.DepartamentoSimpleDTO;
+
 import com.example.sistema_empresa_jdbc.models.Departamento;
 import java.util.List;
 
@@ -37,5 +40,12 @@ public class DepartamentoController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Integer id) {
         departamentoService.eliminar(id);
+    }
+
+    @GetMapping("/dto")
+    public List<DepartamentoSimpleDTO> listarSoloIdNombre() {
+        return departamentoService.listarTodos().stream()
+            .map(dep -> new DepartamentoSimpleDTO(dep.getIDDpto(), dep.getNombre()))
+            .toList();
     }
 }

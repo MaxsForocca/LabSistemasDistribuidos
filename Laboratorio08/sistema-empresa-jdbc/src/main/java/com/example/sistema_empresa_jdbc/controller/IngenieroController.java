@@ -4,6 +4,7 @@ import com.example.sistema_empresa_jdbc.models.Ingeniero;
 import com.example.sistema_empresa_jdbc.services.IngenieroService;
 
 import com.example.sistema_empresa_jdbc.dto.IngenieroDTO;
+import com.example.sistema_empresa_jdbc.dto.IngenieroRequestDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +28,13 @@ public class IngenieroController {
     }
 
     @PostMapping
-    public Ingeniero crear(@RequestBody Ingeniero ingeniero) {
-        return ingenieroService.guardar(ingeniero);
+    public Ingeniero crear(@RequestBody IngenieroRequestDTO request) {
+        return ingenieroService.guardar(request);
     }
 
     @PutMapping("/{id}")
-    public Ingeniero actualizar(@PathVariable Integer id, @RequestBody Ingeniero ingeniero) {
-        return ingenieroService.actualizar(id, ingeniero);
+    public Ingeniero actualizar(@PathVariable Integer id, @RequestBody IngenieroRequestDTO request) {
+        return ingenieroService.actualizar(id, request);
     }
 
     @DeleteMapping("/{id}")
