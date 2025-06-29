@@ -1,8 +1,8 @@
-// src/components/IngenieroDialog.jsx
 import { crearIngeniero, actualizarIngeniero } from '../services/IngenieroService.js';
+import { obtenerDepartamentosDTO } from '../services/DepartamentoService.js';
+import { obtenerProyectosDTO } from '../services/ProyectoService.js';
 import { useState, useEffect, useRef } from 'react';
-import { FaBuilding, FaProjectDiagram } from 'react-icons/fa';
-import { FaUser, FaEnvelope, FaTools, FaBriefcase, FaDollarSign, FaCalendarAlt, FaPlus } from 'react-icons/fa';
+import { FaBuilding, FaProjectDiagram, FaUser, FaEnvelope, FaTools, FaBriefcase, FaDollarSign, FaCalendarAlt, FaPlus } from 'react-icons/fa';
 import '../styles/Dialog.css';
 import Swal from 'sweetalert2';
 
@@ -10,17 +10,26 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
   const dialogRef = useRef(null);
 
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
-    email: '',
-    especialidad: '',
-    cargo: '',
-    salario: '',
-    fechaIngreso: '',
+    nombre: '', apellido: '', email: '', especialidad: '',
+    cargo: '', salario: '', fechaIngreso: '',
+    idDepartamento: '', idProyectos: []
   });
 
+  const [departamentos, setDepartamentos] = useState([]);
+  const [proyectos, setProyectos] = useState([]);
+
   useEffect(() => {
-    if (ingeniero) {
+    obtenerDepartamentosDTO().then(setDepartamentos);
+    obtenerProyectosDTO().then(setProyectos);
+  }, []);
+
+  useEffect(() => {
+    if (ingeniero && departamentos.length > 0 && proyectos.length > 0) {
+      const depEncontrado = departamentos.find(d => d.nombre === ingeniero.departamentoNombre);
+      const idDepartamento = depEncontrado ? depEncontrado.id.toString() : '';
+
+      const idProyectos = ingeniero.proyectos?.map(p => p.idProy) || [];
+
       setFormData({
         nombre: ingeniero.nombre || '',
         apellido: ingeniero.apellido || '',
@@ -29,8 +38,11 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
         cargo: ingeniero.cargo || '',
         salario: ingeniero.salario || '',
         fechaIngreso: ingeniero.fechaIngreso || '',
+        idDepartamento,
+        idProyectos
       });
-    } else {
+    } else if (!ingeniero && modo === 'agregar') {
+      // Reiniciar todos los campos si se va a agregar uno nuevo
       setFormData({
         nombre: '',
         apellido: '',
@@ -39,9 +51,11 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
         cargo: '',
         salario: '',
         fechaIngreso: '',
+        idDepartamento: '',
+        idProyectos: []
       });
     }
-  }, [ingeniero]);
+  }, [ingeniero, modo, departamentos, proyectos]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,83 +67,131 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
     if (!dialog || dialog.classList.contains('closing')) return;
 
     dialog.classList.add('closing');
-    const onAnimationEnd = () => {
+    dialog.addEventListener('animationend', () => {
       dialog.classList.remove('closing');
       dialog.close();
-      dialog.removeEventListener('animationend', onAnimationEnd);
-    };
-    dialog.addEventListener('animationend', onAnimationEnd);
+    }, { once: true });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const payload = {
+      ...formData,
+      salario: parseFloat(formData.salario),
+      idDepartamento: parseInt(formData.idDepartamento),
+      idProyectos: formData.idProyectos.map(Number)
+    };
+
     const accion = modo === 'editar'
-      ? actualizarIngeniero(ingeniero.iding, formData)
-      : crearIngeniero(formData);
+      ? actualizarIngeniero(ingeniero.idIng, payload)
+      : crearIngeniero(payload);
 
     accion
-      .then(() => {
-        Swal.fire('Éxito', `Ingeniero ${modo === 'editar' ? 'actualizado' : 'creado'} correctamente`, 'success');
-        cerrarDialogo();
-        onSuccess();
-      })
-      .catch(() => {
-        Swal.fire('Error', `No se pudo ${modo === 'editar' ? 'actualizar' : 'crear'} el ingeniero`, 'error');
+    .then(() => {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: `Ingeniero ${modo === 'editar' ? 'actualizado' : 'creado'} correctamente`,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true
       });
+      cerrarDialogo();
+      onSuccess();
+    })
+    .catch(() => {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: `No se pudo ${modo === 'editar' ? 'actualizar' : 'crear'} el ingeniero`,
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true
+      });
+    });
+  };
+
+  const agregarProyecto = (id) => {
+    if (!formData.idProyectos.includes(id)) {
+      setFormData(prev => ({ ...prev, idProyectos: [...prev.idProyectos, id] }));
+    }
+  };
+
+  const eliminarProyecto = (id) => {
+    setFormData(prev => ({
+      ...prev,
+      idProyectos: prev.idProyectos.filter(pid => pid !== id)
+    }));
   };
 
   return (
     <dialog ref={dialogRef} id="dialogIngeniero" className="modal-dialog">
-    <form method="dialog" className="modal-form" onSubmit={handleSubmit}>
+      <form method="dialog" className="modal-form" onSubmit={handleSubmit}>
         <div className="dialog-header">
-        <FaPlus />
-        <h3 className="dialog-tittle">{modo === 'editar' ? 'Editar Ingeniero' : 'Agregar Ingeniero'}</h3>
+          <FaPlus />
+          <h3 className="dialog-tittle">{modo === 'editar' ? 'Editar Ingeniero' : 'Agregar Ingeniero'}</h3>
         </div>
-        
+
         <div className="form-grid">
-        <div className="input-icon">
-            <FaUser />
-            <input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required />
-        </div>
+          <div className="input-icon"><FaUser /><input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaUser /><input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaEnvelope /><input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaTools /><input name="especialidad" placeholder="Especialidad" value={formData.especialidad} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaBriefcase /><input name="cargo" placeholder="Cargo" value={formData.cargo} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaDollarSign /><input type="number" name="salario" placeholder="Salario" step="0.01" value={formData.salario} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaCalendarAlt /><input type="date" name="fechaIngreso" value={formData.fechaIngreso} onChange={handleChange} required /></div>
+          <div className="input-icon"><FaBuilding />
+            <select name="idDepartamento" value={formData.idDepartamento} onChange={handleChange} required>
+              <option value="">Seleccione Departamento</option>
+              {departamentos.map(dep => (
+                <option key={dep.id} value={dep.id}>{dep.nombre}</option>
+              ))}
+            </select>
+          </div>
 
-        <div className="input-icon">
-            <FaUser />
-            <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} required />
-        </div>
+          <div className="input-icon full">
+            <FaProjectDiagram />
+            <div className="project-select-group">
+            <div className="project-selector">
+              <select onChange={(e) => {
+                const selectedId = parseInt(e.target.value);
+                if (!isNaN(selectedId)) {
+                  agregarProyecto(selectedId);
+                  e.target.value = '';
+                }
+              }}>
+                <option value="">Seleccionar Proyecto</option>
+                {proyectos
+                  .filter(p => !formData.idProyectos.includes(p.id))
+                  .map(proy => (
+                    <option key={proy.id} value={proy.id}>{proy.nombre}</option>
+                  ))}
+              </select>
 
-        <div className="input-icon">
-            <FaEnvelope />
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        </div>
-
-        <div className="input-icon">
-            <FaTools />
-            <input name="especialidad" placeholder="Especialidad" value={formData.especialidad} onChange={handleChange} required />
-        </div>
-
-        <div className="input-icon">
-            <FaBriefcase />
-            <input name="cargo" placeholder="Cargo" value={formData.cargo} onChange={handleChange} required />
-        </div>
-
-        <div className="input-icon">
-            <FaDollarSign />
-            <input type="number" name="salario" placeholder="Salario" step="0.01" value={formData.salario} onChange={handleChange} required />
-        </div>
-
-        <div className="input-icon full">
-            <FaCalendarAlt />
-            <input type="date" name="fechaIngreso" value={formData.fechaIngreso} onChange={handleChange} required />
-        </div>
+            </div>
+            <div className="project-tags">
+              {formData.idProyectos.map(id => {
+                const proy = proyectos.find(p => p.id === id);
+                if (!proy) return null;
+                return (
+                  <div key={id} className="project-tag">
+                    {proy.nombre}
+                    <span className="remove-tag" onClick={() => eliminarProyecto(id)}>×</span>
+                  </div>
+                );
+              })}
+            </div>
+            </div>
+          </div>
         </div>
 
         <div className="dialog-actions">
-        <button type="submit" className="dlg-button save">Guardar</button>
-        <button type="button" className="dlg-button delete" onClick={cerrarDialogo}>
-            Cancelar
-        </button>
+          <button type="submit" className="dlg-button save">Guardar</button>
+          <button type="button" className="dlg-button delete" onClick={cerrarDialogo}>Cancelar</button>
         </div>
-    </form>
+      </form>
     </dialog>
   );
 };

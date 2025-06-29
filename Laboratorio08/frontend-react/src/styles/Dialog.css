@@ -122,7 +122,7 @@
   background-color: #ffffff;
 }
 
-.input-icon input {
+.input-icon input, .input-icon select {
   border: none;
   outline: none;
   background: transparent;
@@ -138,4 +138,88 @@
 .input-icon.full {
   grid-column: span 2;
 }
+
+.project-select-group {
+  display: flex;
+  flex-direction: column;
+  width: 95.5%;
+}
+
+.project-selector {
+  display: flex;
+  width: 98%;
+  padding: 1%;
+  padding-bottom: 0.5%;
+  margin-bottom: 2%;
+  border-bottom: 1px solid #20232a;
+}
+
+.btn-add-proyecto {
+  align-self: flex-start;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in;
+}
+
+.btn-add-proyecto:hover {
+  background-color: #218838;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 15px;
+  width: 96%;
+  gap: 0.5rem;
+  background-color: #e7e7e7;
+  border-radius: 10px;
+  padding: 2%;
+}
+
+.project-tag {
+  background-color: #41444c;
+  color: #e2e2e2;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: all 0.2s ease-in;
+}
+
+.project-tag:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #41444c;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.project-tag:hover .remove-tag {
+  color: #41444c;
+}
+
+.remove-tag {
+  margin-left: 0.7rem;
+  color: #e2e2e2;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0,2s ease;
+}
+
+.remove-tag:hover {
+  transform: scale(1.5);
+  font-weight: 2000;
+}
+
+
 

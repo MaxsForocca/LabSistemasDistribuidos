@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { FaEdit, FaTrash, FaHardHat, FaPlus } from 'react-icons/fa';
 import '../styles/Table.css';
+import { Link } from 'react-router-dom';
 import {
   obtenerIngenieros,
   eliminarIngeniero,
@@ -49,13 +50,29 @@ const IngenieroPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarIngeniero(id)
-          .then(() => {
-            Swal.fire('Eliminado', 'El ingeniero ha sido eliminado.', 'success');
-            cargarIngenieros();
-          })
-          .catch(() => {
-            Swal.fire('Error', 'No se pudo eliminar el ingeniero.', 'error');
+        .then(() => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'El ingeniero ha sido eliminado.',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
           });
+          cargarIngenieros();
+        })
+        .catch(() => {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se pudo eliminar el ingeniero.',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
+          });
+        });
       }
     });
   };
@@ -105,7 +122,11 @@ const IngenieroPage = () => {
               <td>{ing.cargo}</td>
               <td>S/. {ing.salario.toFixed(2)}</td>
               <td>{ing.fechaIngreso}</td>
-              <td>{ing.departamentoNombre}</td>
+              <td>
+                <Link to="/departamentos" style={{ color: '#007bff', textDecoration: 'underline' }}>
+                  {ing.departamentoNombre}
+                </Link>
+              </td>
               <td>
                 {ing.proyectos.length > 0 ? (
                   <div className="project-cell">
@@ -128,10 +149,10 @@ const IngenieroPage = () => {
               </td>
               <td>
                 <div className="acciones-botones">
-                  <button className="icon-button edit" onClick={() => handleEditar(ing.iding)}>
+                  <button className="icon-button edit" onClick={() => handleEditar(ing.idIng)}>
                     <FaEdit />
                   </button>
-                  <button className="icon-button delete" onClick={() => handleEliminar(ing.iding)}>
+                  <button className="icon-button delete" onClick={() => handleEliminar(ing.idIng)}>
                     <FaTrash />
                   </button>
                 </div>

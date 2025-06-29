@@ -164,3 +164,20 @@
   font-size: 0.8em;
   padding: 0.6em;
 }
+
+.active-estate {
+  background-color: #28a745;
+  margin-top: 4px !important;
+  border: none;
+}
+
+.inactive-estate {
+  background-color: rgb(220, 37, 37);
+  border: none;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
