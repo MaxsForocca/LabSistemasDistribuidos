@@ -23,7 +23,7 @@ const IngenieroPage = () => {
   useEffect(() => {
     cargarIngenieros();
   }, []);
-  
+
   const handleAbrirAgregar = () => {
     setModoDialogo('agregar');
     setIngenieroSeleccionado(null);
@@ -59,25 +59,25 @@ const IngenieroPage = () => {
       }
     });
   };
-  
 
   return (
     <div className="page">
       <IngenieroDialog
         modo={modoDialogo}
         ingeniero={ingenieroSeleccionado}
-        onSuccess={obtenerIngenieros}
+        onSuccess={cargarIngenieros}
       />
 
       <div className="page-header">
         <div className="header-left">
-            <FaHardHat className="header-icon" />
-            <h2 className="tittle-page">Lista de Ingenieros</h2>
+          <FaHardHat className="header-icon" />
+          <h2 className="tittle-page">Lista de Ingenieros</h2>
         </div>
         <button className="add-button" onClick={handleAbrirAgregar}>
-            <FaPlus /> Agregar Ineniero
+          <FaPlus /> Agregar Ingeniero
         </button>
       </div>
+
       <table className="table-page">
         <thead>
           <tr>
@@ -89,13 +89,15 @@ const IngenieroPage = () => {
             <th>Cargo</th>
             <th>Salario</th>
             <th>Fecha de Ingreso</th>
+            <th>Departamento</th>
+            <th>Proyectos</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {ingenieros.map(ing => (
-            <tr key={ing.iding}>
-              <td>{ing.iding}</td>
+            <tr key={ing.idIng}>
+              <td>{ing.idIng}</td>
               <td>{ing.nombre}</td>
               <td>{ing.apellido}</td>
               <td>{ing.email}</td>
@@ -103,16 +105,37 @@ const IngenieroPage = () => {
               <td>{ing.cargo}</td>
               <td>S/. {ing.salario.toFixed(2)}</td>
               <td>{ing.fechaIngreso}</td>
+              <td>{ing.departamentoNombre}</td>
+              <td>
+                {ing.proyectos.length > 0 ? (
+                  <div className="project-cell">
+                    {ing.proyectos.map(proy => (
+                      <div className="project-container"
+                        key={proy.idProy}
+                        style={{
+                          
+                        }}
+                      >
+                        {proy.nombre}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="project-container alert">
+                    Sin proyectos
+                  </div>
+                )}
+              </td>
               <td>
                 <div className="acciones-botones">
-                    <button className="icon-button edit" onClick={() => handleEditar(ing.iding)}>
+                  <button className="icon-button edit" onClick={() => handleEditar(ing.iding)}>
                     <FaEdit />
-                    </button>
-                    <button className="icon-button delete" onClick={() => handleEliminar(ing.iding)}>
+                  </button>
+                  <button className="icon-button delete" onClick={() => handleEliminar(ing.iding)}>
                     <FaTrash />
-                    </button>
+                  </button>
                 </div>
-               </td>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -122,3 +145,4 @@ const IngenieroPage = () => {
 };
 
 export default IngenieroPage;
+
