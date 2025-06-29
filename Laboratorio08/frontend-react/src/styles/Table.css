@@ -1,0 +1,20 @@
+.ingeniero-page {
+  padding: 20px;
+}
+
+.ingeniero-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.ingeniero-table th,
+.ingeniero-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.ingeniero-table th {
+  background-color: #f4f4f4;
+}

@@ -1,0 +1,19 @@
+/* src/styles/App.css */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.app-content {
+  flex-grow: 1;
+  padding: 0px;
+}
