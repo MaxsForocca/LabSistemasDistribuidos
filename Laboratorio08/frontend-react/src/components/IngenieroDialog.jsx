@@ -1,12 +1,18 @@
 import { crearIngeniero, actualizarIngeniero } from '../services/IngenieroService.js';
 import { obtenerDepartamentosDTO } from '../services/DepartamentoService.js';
 import { useState, useEffect, useRef } from 'react';
-import { FaBuilding, FaUser, FaEnvelope, FaTools, FaBriefcase, FaDollarSign, FaCalendarAlt, FaPlus } from 'react-icons/fa';
+import { FaBuilding, FaUser, FaEnvelope, FaTools, FaBriefcase, FaDollarSign, FaCalendarAlt, FaPlus, FaHistory } from 'react-icons/fa';
 import '../styles/Dialog.css';
+// ✅ AGREGAR ESTOS 2 IMPORTS
+import '../styles/HistorialIngeniero.css';
+import HistorialIngeniero from './HistorialIngeniero';
 import Swal from 'sweetalert2';
 
 const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
   const dialogRef = useRef(null);
+  
+  // ✅ AGREGAR ESTE ESTADO PARA MANEJAR PESTAÑAS
+  const [pestanaActiva, setPestanaActiva] = useState('formulario');
 
   const [formData, setFormData] = useState({
     nombre: '', apellido: '', email: '', especialidad: '',
@@ -62,6 +68,8 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
     dialog.addEventListener('animationend', () => {
       dialog.classList.remove('closing');
       dialog.close();
+      // ✅ RESETEAR PESTAÑA AL CERRAR
+      setPestanaActiva('formulario');
     }, { once: true });
   };
 
@@ -112,27 +120,73 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
           <h3 className="dialog-tittle">{modo === 'editar' ? 'Editar Ingeniero' : 'Agregar Ingeniero'}</h3>
         </div>
 
-        <div className="form-grid">
-          <div className="input-icon"><FaUser /><input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaUser /><input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaEnvelope /><input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaTools /><input name="especialidad" placeholder="Especialidad" value={formData.especialidad} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaBriefcase /><input name="cargo" placeholder="Cargo" value={formData.cargo} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaDollarSign /><input type="number" name="salario" placeholder="Salario" step="0.01" value={formData.salario} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaCalendarAlt /><input type="date" name="fechaIngreso" value={formData.fechaIngreso} onChange={handleChange} required /></div>
-          <div className="input-icon"><FaBuilding />
-            <select name="idDepartamento" value={formData.idDepartamento} onChange={handleChange} required>
-              <option value="">Seleccione Departamento</option>
-              {departamentos.map(dep => (
-                <option key={dep.id} value={dep.id}>{dep.nombre}</option>
-              ))}
-            </select>
+        {/* ✅ AGREGAR PESTAÑAS SOLO SI ES MODO EDITAR */}
+        {modo === 'editar' && ingeniero && (
+          <div className="tabs-container" style={{ marginBottom: '1rem' }}>
+            <button
+              type="button"
+              className={`tab-button ${pestanaActiva === 'formulario' ? 'active' : ''}`}
+              onClick={() => setPestanaActiva('formulario')}
+            >
+              <FaUser /> Datos
+            </button>
+            <button
+              type="button"
+              className={`tab-button ${pestanaActiva === 'historial' ? 'active' : ''}`}
+              onClick={() => setPestanaActiva('historial')}
+            >
+              <FaHistory /> Historial
+            </button>
           </div>
-        </div>
+        )}
+
+        {/* ✅ CONTENIDO CONDICIONAL SEGÚN PESTAÑA ACTIVA */}
+        {pestanaActiva === 'formulario' && (
+          <div className="form-grid">
+            <div className="input-icon"><FaUser /><input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaUser /><input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaEnvelope /><input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaTools /><input name="especialidad" placeholder="Especialidad" value={formData.especialidad} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaBriefcase /><input name="cargo" placeholder="Cargo" value={formData.cargo} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaDollarSign /><input type="number" name="salario" placeholder="Salario" step="0.01" value={formData.salario} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaCalendarAlt /><input type="date" name="fechaIngreso" value={formData.fechaIngreso} onChange={handleChange} required /></div>
+            <div className="input-icon"><FaBuilding />
+              <select name="idDepartamento" value={formData.idDepartamento} onChange={handleChange} required>
+                <option value="">Seleccione Departamento</option>
+                {departamentos.map(dep => (
+                  <option key={dep.id} value={dep.id}>{dep.nombre}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
+        {/* ✅ AGREGAR PESTAÑA DE HISTORIAL */}
+        {pestanaActiva === 'historial' && modo === 'editar' && ingeniero && (
+          <div className="historial-container" style={{ 
+            minHeight: '400px', 
+            maxHeight: '500px', 
+            overflowY: 'auto',
+            padding: '1rem',
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            backgroundColor: '#f9f9f9'
+          }}>
+            <HistorialIngeniero 
+              ingenieroId={ingeniero.idIng} 
+              nombreIngeniero={`${formData.nombre || ingeniero.nombre} ${formData.apellido || ingeniero.apellido}`} 
+            />
+          </div>
+        )}
 
         <div className="dialog-actions">
-          <button type="submit" className="dlg-button save">Guardar</button>
-          <button type="button" className="dlg-button delete" onClick={cerrarDialogo}>Cancelar</button>
+          {/* ✅ SOLO MOSTRAR BOTÓN GUARDAR EN PESTAÑA FORMULARIO */}
+          {pestanaActiva === 'formulario' && (
+            <button type="submit" className="dlg-button save">Guardar</button>
+          )}
+          <button type="button" className="dlg-button delete" onClick={cerrarDialogo}>
+            {pestanaActiva === 'historial' ? 'Cerrar' : 'Cancelar'}
+          </button>
         </div>
       </form>
     </dialog>

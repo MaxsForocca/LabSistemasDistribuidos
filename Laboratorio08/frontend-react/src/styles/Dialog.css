@@ -221,5 +221,99 @@
   font-weight: 2000;
 }
 
+.tabs-container {
+  display: flex;
+  border-bottom: 2px solid #20232a;
+  margin-bottom: 1rem;
+  background-color: #f2f2f2;
+  border-radius: 6px 6px 0 0;
+  padding: 0.25rem;
+}
 
+.tab-button {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: #898989;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  font-family: 'Inter', sans-serif;
+}
 
+.tab-button:hover {
+  color: #20232a;
+  background-color: #e7e7e7;
+  transform: translateY(-1px);
+}
+
+.tab-button.active {
+  color: #219dfb;
+  background-color: #ffffff;
+  border-bottom-color: #219dfb;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  font-weight: 600;
+}
+
+/* Contenedor del historial */
+.historial-container {
+  animation: fadeInScale 0.3s ease-in-out;
+  background-color: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 1rem;
+  min-height: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Ajustar el modal para mayor altura cuando tiene historial */
+.modal-dialog:has(.historial-container) {
+  max-width: 800px;
+  max-height: 90vh;
+  width: 60vw;
+}
+
+.modal-form:has(.historial-container) {
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Responsive para las pestañas */
+@media (max-width: 768px) {
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 0.75em;
+  }
+  
+  .tabs-container {
+    margin-bottom: 0.5rem;
+    padding: 0.15rem;
+  }
+  
+  .historial-container {
+    min-height: 300px;
+    max-height: 400px;
+    padding: 0.75rem;
+  }
+  
+  .modal-dialog:has(.historial-container) {
+    width: 85vw;
+    max-width: none;
+  }
+}

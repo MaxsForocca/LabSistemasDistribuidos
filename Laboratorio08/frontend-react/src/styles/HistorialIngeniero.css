@@ -1,0 +1,305 @@
+/* HistorialIngeniero.css - Versión SIMPLE sin emojis ni línea de tiempo */
+
+.historial-ingeniero {
+  max-height: 500px;
+  overflow-y: auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header del historial */
+.historial-ingeniero h5 {
+  color: #20232a;
+  font-weight: 600;
+  font-size: 1em;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 7px;
+  border-bottom: 2px solid #20232a;
+}
+
+.historial-ingeniero .badge {
+  background-color: #219dfb !important;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 500;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+/* Cards del historial - SIN línea de tiempo */
+.historial-item {
+  margin-bottom: 0.75rem;
+  transition: all 0.35s ease;
+}
+
+.historial-item .card {
+  border: none !important;
+  border-radius: 8px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: all 0.35s ease;
+  background-color: #ffffff;
+}
+
+.historial-item .card:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  transform: translateY(-2px);
+}
+
+.historial-item .card-body {
+  padding: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.historial-item:hover .card-body {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Bordes laterales según operación */
+.historial-item .card.border-start {
+  border-left: 4px solid transparent !important;
+}
+
+.historial-item .card[style*="border-left-color: rgb(25, 135, 84)"] {
+  border-left-color: #28a745 !important;
+}
+
+.historial-item .card[style*="border-left-color: rgb(255, 193, 7)"] {
+  border-left-color: #f3d113 !important;
+}
+
+.historial-item .card[style*="border-left-color: rgb(220, 53, 69)"] {
+  border-left-color: #ca0404 !important;
+}
+
+/* Header de cada cambio */
+.cambio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cambio-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Badges de operación - SIN emojis */
+.historial-item .badge.bg-success {
+  background-color: #28a745 !important;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.historial-item .badge.bg-warning {
+  background-color: #f3d113 !important;
+  color: #20232a;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.historial-item .badge.bg-danger {
+  background-color: #ca0404 !important;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Fecha y usuario */
+.fecha-cambio {
+  font-size: 0.7em;
+  color: #898989;
+  background-color: #f2f2f2;
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+}
+
+.usuario-cambio {
+  font-size: 0.65em;
+  color: #898989;
+  background-color: #e7e7e7;
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+}
+
+/* Descripción del cambio */
+.descripcion-cambio {
+  color: #20232a !important;
+  font-size: 0.85em;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+/* Información de cambios de salario */
+.detalle-cambio {
+  background-color: #e7e7e7 !important;
+  border-radius: 6px;
+  padding: 0.75rem;
+  border-left: 3px solid #219dfb;
+  margin-top: 0.5rem;
+}
+
+.detalle-cambio strong {
+  color: #20232a;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.valor-anterior {
+  color: #898989 !important;
+  font-weight: 500;
+}
+
+.valor-nuevo {
+  color: #28a745 !important;
+  font-weight: 600;
+}
+
+.flecha-cambio {
+  color: #219dfb;
+  font-weight: bold;
+  margin: 0 0.5rem;
+}
+
+/* Botón de actualizar */
+.historial-ingeniero .btn-outline-primary {
+  background-color: transparent;
+  border: 2px solid #219dfb;
+  color: #219dfb;
+  font-size: 0.7em;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.historial-ingeniero .btn-outline-primary:hover {
+  background-color: #219dfb;
+  color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.historial-ingeniero .btn-outline-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Alertas */
+.historial-ingeniero .alert {
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8em;
+  padding: 1rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.historial-ingeniero .alert-info {
+  background-color: #e7f3ff;
+  color: #20232a;
+  border-left: 4px solid #219dfb;
+}
+
+.historial-ingeniero .alert-warning {
+  background-color: #fff8e1;
+  color: #20232a;
+  border-left: 4px solid #f3d113;
+}
+
+.historial-ingeniero .alert-danger {
+  background-color: #ffebee;
+  color: #20232a;
+  border-left: 4px solid #ca0404;
+}
+
+/* Spinner de carga */
+.historial-ingeniero .spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+  border-color: #219dfb;
+  border-right-color: transparent;
+}
+
+/* Animaciones simples */
+.historial-item {
+  animation: fadeIn 0.4s ease forwards;
+  opacity: 0;
+}
+
+.historial-item:nth-child(1) { animation-delay: 0.1s; }
+.historial-item:nth-child(2) { animation-delay: 0.15s; }
+.historial-item:nth-child(3) { animation-delay: 0.2s; }
+.historial-item:nth-child(4) { animation-delay: 0.25s; }
+.historial-item:nth-child(5) { animation-delay: 0.3s; }
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Scroll personalizado */
+.historial-ingeniero::-webkit-scrollbar {
+  width: 6px;
+}
+
+.historial-ingeniero::-webkit-scrollbar-track {
+  background: #e7e7e7;
+  border-radius: 3px;
+}
+
+.historial-ingeniero::-webkit-scrollbar-thumb {
+  background: #898989;
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.historial-ingeniero::-webkit-scrollbar-thumb:hover {
+  background: #20232a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .historial-ingeniero {
+    max-height: 400px;
+  }
+  
+  .cambio-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cambio-info {
+    gap: 0.5rem;
+  }
+  
+  .descripcion-cambio {
+    font-size: 0.8em;
+  }
+  
+  .detalle-cambio {
+    padding: 0.5rem;
+  }
+}
