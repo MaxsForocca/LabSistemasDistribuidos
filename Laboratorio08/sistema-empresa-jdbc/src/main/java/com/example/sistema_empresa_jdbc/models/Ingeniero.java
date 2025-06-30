@@ -36,12 +36,8 @@ public class Ingeniero {
     @JsonBackReference(value = "ingeniero-dpto")
     private Departamento departamento;
 
-    @ManyToMany
-    @JoinTable(
-        name = "proyecto_ingeniero",
-        joinColumns = @JoinColumn(name = "IDIng"),
-        inverseJoinColumns = @JoinColumn(name = "IDProy")
-    )
+    @ManyToMany(mappedBy = "ingenieros")
+    @JsonIgnore
     private List<Proyecto> proyectos;
 
     // Getters y setters

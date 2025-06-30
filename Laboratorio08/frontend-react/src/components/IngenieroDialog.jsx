@@ -1,8 +1,7 @@
 import { crearIngeniero, actualizarIngeniero } from '../services/IngenieroService.js';
 import { obtenerDepartamentosDTO } from '../services/DepartamentoService.js';
-import { obtenerProyectosDTO } from '../services/ProyectoService.js';
 import { useState, useEffect, useRef } from 'react';
-import { FaBuilding, FaProjectDiagram, FaUser, FaEnvelope, FaTools, FaBriefcase, FaDollarSign, FaCalendarAlt, FaPlus } from 'react-icons/fa';
+import { FaBuilding, FaUser, FaEnvelope, FaTools, FaBriefcase, FaDollarSign, FaCalendarAlt, FaPlus } from 'react-icons/fa';
 import '../styles/Dialog.css';
 import Swal from 'sweetalert2';
 
@@ -12,23 +11,19 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
   const [formData, setFormData] = useState({
     nombre: '', apellido: '', email: '', especialidad: '',
     cargo: '', salario: '', fechaIngreso: '',
-    idDepartamento: '', idProyectos: []
+    idDepartamento: ''
   });
 
   const [departamentos, setDepartamentos] = useState([]);
-  const [proyectos, setProyectos] = useState([]);
 
   useEffect(() => {
     obtenerDepartamentosDTO().then(setDepartamentos);
-    obtenerProyectosDTO().then(setProyectos);
   }, []);
 
   useEffect(() => {
-    if (ingeniero && departamentos.length > 0 && proyectos.length > 0) {
+    if (ingeniero && departamentos.length > 0) {
       const depEncontrado = departamentos.find(d => d.nombre === ingeniero.departamentoNombre);
       const idDepartamento = depEncontrado ? depEncontrado.id.toString() : '';
-
-      const idProyectos = ingeniero.proyectos?.map(p => p.idProy) || [];
 
       setFormData({
         nombre: ingeniero.nombre || '',
@@ -38,11 +33,9 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
         cargo: ingeniero.cargo || '',
         salario: ingeniero.salario || '',
         fechaIngreso: ingeniero.fechaIngreso || '',
-        idDepartamento,
-        idProyectos
+        idDepartamento
       });
     } else if (!ingeniero && modo === 'agregar') {
-      // Reiniciar todos los campos si se va a agregar uno nuevo
       setFormData({
         nombre: '',
         apellido: '',
@@ -51,11 +44,10 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
         cargo: '',
         salario: '',
         fechaIngreso: '',
-        idDepartamento: '',
-        idProyectos: []
+        idDepartamento: ''
       });
     }
-  }, [ingeniero, modo, departamentos, proyectos]);
+  }, [ingeniero, modo, departamentos]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -78,8 +70,7 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
     const payload = {
       ...formData,
       salario: parseFloat(formData.salario),
-      idDepartamento: parseInt(formData.idDepartamento),
-      idProyectos: formData.idProyectos.map(Number)
+      idDepartamento: parseInt(formData.idDepartamento)
     };
 
     const accion = modo === 'editar'
@@ -87,43 +78,30 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
       : crearIngeniero(payload);
 
     accion
-    .then(() => {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'success',
-        title: `Ingeniero ${modo === 'editar' ? 'actualizado' : 'creado'} correctamente`,
-        showConfirmButton: false,
-        timer: 2500,
-        timerProgressBar: true
+      .then(() => {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: `Ingeniero ${modo === 'editar' ? 'actualizado' : 'creado'} correctamente`,
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true
+        });
+        cerrarDialogo();
+        onSuccess();
+      })
+      .catch(() => {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'error',
+          title: `No se pudo ${modo === 'editar' ? 'actualizar' : 'crear'} el ingeniero`,
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true
+        });
       });
-      cerrarDialogo();
-      onSuccess();
-    })
-    .catch(() => {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'error',
-        title: `No se pudo ${modo === 'editar' ? 'actualizar' : 'crear'} el ingeniero`,
-        showConfirmButton: false,
-        timer: 2500,
-        timerProgressBar: true
-      });
-    });
-  };
-
-  const agregarProyecto = (id) => {
-    if (!formData.idProyectos.includes(id)) {
-      setFormData(prev => ({ ...prev, idProyectos: [...prev.idProyectos, id] }));
-    }
-  };
-
-  const eliminarProyecto = (id) => {
-    setFormData(prev => ({
-      ...prev,
-      idProyectos: prev.idProyectos.filter(pid => pid !== id)
-    }));
   };
 
   return (
@@ -149,41 +127,6 @@ const IngenieroDialog = ({ modo, ingeniero, onSuccess }) => {
                 <option key={dep.id} value={dep.id}>{dep.nombre}</option>
               ))}
             </select>
-          </div>
-
-          <div className="input-icon full">
-            <FaProjectDiagram />
-            <div className="project-select-group">
-            <div className="project-selector">
-              <select onChange={(e) => {
-                const selectedId = parseInt(e.target.value);
-                if (!isNaN(selectedId)) {
-                  agregarProyecto(selectedId);
-                  e.target.value = '';
-                }
-              }}>
-                <option value="">Seleccionar Proyecto</option>
-                {proyectos
-                  .filter(p => !formData.idProyectos.includes(p.id))
-                  .map(proy => (
-                    <option key={proy.id} value={proy.id}>{proy.nombre}</option>
-                  ))}
-              </select>
-
-            </div>
-            <div className="project-tags">
-              {formData.idProyectos.map(id => {
-                const proy = proyectos.find(p => p.id === id);
-                if (!proy) return null;
-                return (
-                  <div key={id} className="project-tag">
-                    {proy.nombre}
-                    <span className="remove-tag" onClick={() => eliminarProyecto(id)}>×</span>
-                  </div>
-                );
-              })}
-            </div>
-            </div>
           </div>
         </div>
 

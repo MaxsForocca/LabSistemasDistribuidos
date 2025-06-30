@@ -2,7 +2,6 @@ package com.example.sistema_empresa_jdbc.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 public class IngenieroRequestDTO {
     public String nombre;
@@ -13,5 +12,4 @@ public class IngenieroRequestDTO {
     public LocalDate fechaIngreso;
     public String email;
     public Integer idDepartamento;
-    public List<Integer> idProyectos;
 }

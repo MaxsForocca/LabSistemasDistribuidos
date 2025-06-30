@@ -5,6 +5,7 @@ import com.example.sistema_empresa_jdbc.services.IngenieroService;
 
 import com.example.sistema_empresa_jdbc.dto.IngenieroDTO;
 import com.example.sistema_empresa_jdbc.dto.IngenieroRequestDTO;
+import com.example.sistema_empresa_jdbc.dto.IngenieroSimpleDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +41,10 @@ public class IngenieroController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Integer id) {
         ingenieroService.eliminar(id);
+    }
+
+    @GetMapping("/dto")
+    public List<IngenieroSimpleDTO> listarSimple() {
+        return ingenieroService.listarSimples();
     }
 }

@@ -3,6 +3,7 @@ package com.example.sistema_empresa_jdbc.models;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -37,11 +38,16 @@ public class Proyecto {
 
     @ManyToOne
     @JoinColumn(name = "IDDpto")
-    @JsonBackReference(value = "proyecto-dpto") // <-- debe coincidir con Departamento.java
+    @JsonBackReference(value = "proyecto-dpto")
     private Departamento departamento;
 
-    @ManyToMany(mappedBy = "proyectos")
-    private List<Ingeniero> ingenieros;
+    @ManyToMany
+    @JoinTable(
+        name = "proyecto_ingeniero",
+        joinColumns = @JoinColumn(name = "IDProy"),
+        inverseJoinColumns = @JoinColumn(name = "IDIng")
+    )
+    private List<Ingeniero> ingenieros = new ArrayList<>();
 
     // Getters y setters
     public Integer getIDProy() {

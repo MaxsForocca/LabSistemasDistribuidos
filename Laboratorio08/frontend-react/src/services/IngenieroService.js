@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/ingenieros';
+const API_URL_DTO = 'http://localhost:8080/api/ingenieros/dto';
 
 // Obtener todos los ingenieros
 export const obtenerIngenieros = () => {
@@ -25,4 +26,8 @@ export const actualizarIngeniero = (id, ingeniero) => {
 // Eliminar un ingeniero
 export const eliminarIngeniero = (id) => {
   return axios.delete(`${API_URL}/${id}`);
+};
+
+export const obtenerIngenierosSimples = () => {
+  return axios.get(`${API_URL_DTO}`);
 };
